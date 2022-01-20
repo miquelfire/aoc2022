@@ -5,18 +5,22 @@ import { performance } from 'perf_hooks';
 import * as fs from 'fs/promises';
 import * as readline from 'readline';
 
+interface day {
+	[funName:string]: (data: string) =>  Promise<string | number>;
+}
+
 process.on('unhandledRejection', error => {
 	console.error(error);
 	process.exit(1);
 });
 
-export const formatFilename = (day: number) => {
+export const formatFilename = (day: number): string => {
 	// You can customize this function to your liking
 
 	return day.toString().padStart(2, '0');
 };
 
-export const formatRuntime = (ms: number) => {
+export const formatRuntime = (ms: number): string => {
 	// You can customize this function to your liking
 
 	// microseconds
@@ -38,7 +42,7 @@ export const formatRuntime = (ms: number) => {
 	return `${Math.floor(sec / 60)}m ` + formatRuntime((sec % 60) * 1000);
 };
 
-const runPart = async (part: number, mod, data: string) => {
+const runPart = async (part: number, mod: day, data: string) => {
 	const funcname = 'part' + part;
 	const func = mod ? mod[funcname] : undefined;
 
@@ -46,9 +50,10 @@ const runPart = async (part: number, mod, data: string) => {
 		console.log('Running Part', part);
 
 		const start = performance.now();
-		let output = func(data);
+		const outputP = func(data);
+		let output;
 		// You might want to comment this out to get a slight performance benefit
-		if (output instanceof Promise) {
+		if (outputP instanceof Promise) {
 			output = await output;
 		}
 		const end = performance.now();
@@ -71,8 +76,10 @@ const getData = async (day: number) => {
 		const buf = await fs.readFile(fname);
 		data = buf.toString('utf-8');
 	} catch (e) {
-		if (e && e.message) {
-			e.message = `Error while reading ${fname}: ` + e.message;
+		if (e instanceof Error) {
+			if (e && e.message) {
+				e.message = `Error while reading ${fname}: ` + e.message;
+			}
 		}
 		throw e;
 	}
@@ -108,7 +115,7 @@ const ask = (question: string) =>
 export const getDay = async (maxDay: number) => {
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
-		let question = 'Enter day' + (maxDay ? ` (max ${maxDay})` : '') + ': ';
+		const question = 'Enter day' + (maxDay ? ` (max ${maxDay})` : '') + ': ';
 		const inp = await ask(question);
 
 		const day = Number(inp);
