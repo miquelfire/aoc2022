@@ -1,12 +1,12 @@
 {
-	"extends": "@tsconfig/node16/tsconfig.json",
-	"compilerOptions": {
-		"sourceMap": true,
-		"moduleResolution": "Node",
-		"module": "CommonJS",
-		"target": "ES2021",
-		"outDir": "dest"
-	},
-	"include": ["."],
-	"exclude": ["node_modules"]
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "sourceMap": true,
+    "moduleResolution": "Node",
+    "module": "CommonJS",
+    "target": "ES2021",
+    "outDir": "dest"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"]
 }
