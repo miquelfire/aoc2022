@@ -50,12 +50,8 @@ const runPart = async (part: number, mod: day, data: string) => {
 		console.log('Running Part', part);
 
 		const start = performance.now();
-		const outputP = func(data);
-		let output;
+		let output = await func(data);
 		// You might want to comment this out to get a slight performance benefit
-		if (outputP instanceof Promise) {
-			output = await output;
-		}
 		const end = performance.now();
 
 		console.log('Output:', output);
