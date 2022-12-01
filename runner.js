@@ -5,22 +5,18 @@ import { performance } from 'perf_hooks';
 import * as fs from 'fs/promises';
 import * as readline from 'readline';
 
-interface day {
-	[funName:string]: (data: string) =>  Promise<string | number>;
-}
-
 process.on('unhandledRejection', error => {
 	console.error(error);
 	process.exit(1);
 });
 
-export const formatFilename = (day: number): string => {
+export const formatFilename = day => {
 	// You can customize this function to your liking
 
 	return day.toString().padStart(2, '0');
 };
 
-export const formatRuntime = (ms: number): string => {
+export const formatRuntime = ms => {
 	// You can customize this function to your liking
 
 	// microseconds
@@ -42,7 +38,7 @@ export const formatRuntime = (ms: number): string => {
 	return `${Math.floor(sec / 60)}m ` + formatRuntime((sec % 60) * 1000);
 };
 
-const runPart = async (part: number, mod: day, data: string) => {
+const runPart = async (part, mod, data) => {
 	const funcname = 'part' + part;
 	const func = mod ? mod[funcname] : undefined;
 
@@ -50,8 +46,11 @@ const runPart = async (part: number, mod: day, data: string) => {
 		console.log('Running Part', part);
 
 		const start = performance.now();
-		let output = await func(data);
+		let output = func(data);
 		// You might want to comment this out to get a slight performance benefit
+		if (output instanceof Promise) {
+			output = await output;
+		}
 		const end = performance.now();
 
 		console.log('Output:', output);
@@ -64,28 +63,26 @@ const runPart = async (part: number, mod: day, data: string) => {
 	}
 };
 
-const getData = async (day: number) => {
+const getData = async day => {
 	const fname = formatFilename(day) + '.txt';
 
-	let data: string;
+	let data;
 	try {
 		const buf = await fs.readFile(fname);
 		data = buf.toString('utf-8');
 	} catch (e) {
-		if (e instanceof Error) {
-			if (e && e.message) {
-				e.message = `Error while reading ${fname}: ` + e.message;
-			}
+		if (e && e.message) {
+			e.message = `Error while reading ${fname}: ` + e.message;
 		}
 		throw e;
 	}
 	return data.trim();
 };
 
-export const run = async (day: number, year = 2021) => {
+export const run = async (day, year = 2021) => {
 	console.log(`AOC ${year} Day ${day}`);
 
-	const mod = await import('./' + formatFilename(day));
+	const mod = await import('./' + formatFilename(day) + '.js');
 	const data = await getData(day);
 
 	const part1Time = await runPart(1, mod, data);
@@ -95,7 +92,7 @@ export const run = async (day: number, year = 2021) => {
 	}
 };
 
-const ask = (question: string) =>
+const ask = question =>
 	new Promise(resolve => {
 		const rl = readline.createInterface({
 			input: process.stdin,
@@ -108,10 +105,10 @@ const ask = (question: string) =>
 		});
 	});
 
-export const getDay = async (maxDay: number) => {
+export const getDay = async maxDay => {
 	// eslint-disable-next-line no-constant-condition
 	while (true) {
-		const question = 'Enter day' + (maxDay ? ` (max ${maxDay})` : '') + ': ';
+		let question = 'Enter day' + (maxDay ? ` (max ${maxDay})` : '') + ': ';
 		const inp = await ask(question);
 
 		const day = Number(inp);

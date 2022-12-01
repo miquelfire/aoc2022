@@ -1,22 +1,17 @@
 module.exports = {
-	parser: '@typescript-eslint/parser',
-	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module',
-	},
-	env: {
+	'env': {
+		'es2021': true,
 		'node': true
 	},
-	extends: [
-		'plugin:@typescript-eslint/recommended',
-	],
+	'extends': 'eslint:recommended',
+	'parserOptions': {
+		'ecmaVersion': 'latest',
+		'sourceType': 'module'
+	},
 	'rules': {
 		'indent': [
 			'error',
-			'tab',
-			{
-				SwitchCase: 1
-			}
+			'tab'
 		],
 		'linebreak-style': [
 			'error',

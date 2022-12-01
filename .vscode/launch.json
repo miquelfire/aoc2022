@@ -11,15 +11,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"runtimeArgs": ["-r", "ts-node/register"],
 			"program": "${workspaceFolder}/index.ts",
-			"outFiles": [
-				"${workspaceFolder}/**/*.js"
-			],
-			"resolveSourceMapLocations": [
-				"${workspaceFolder}/**",
-				"!**/node_modules/**"
-			]
 		}
 	]
 }
