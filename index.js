@@ -24,4 +24,3 @@ import { run } from './runner';
 await run(1);
 
 ('');
-debugger;
