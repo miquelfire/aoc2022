@@ -27,7 +27,9 @@ export const part2 = async d => {
 			.map(e => e.split('-').map(e => parseInt(e, 10)))
 		);
 	data.forEach((v, index) => {
-		
+		if (v[0][0] <= v[1][1] && v[1][0] <= v[0][1]) {
+			data[index] = true;
+		}
 	});
-	return data;
+	return data.filter(e => e === true).length;
 };
