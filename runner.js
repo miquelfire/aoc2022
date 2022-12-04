@@ -79,7 +79,7 @@ const getData = async day => {
 	return data.trim();
 };
 
-export const run = async (day, year = 2021) => {
+export const run = async (day, year = 2022) => {
 	console.log(`AOC ${year} Day ${day}`);
 
 	const mod = await import('./' + formatFilename(day) + '.js');
