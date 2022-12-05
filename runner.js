@@ -76,7 +76,7 @@ const getData = async day => {
 		}
 		throw e;
 	}
-	return data.trim();
+	return data.replace(/[\r\n]+$/, '');
 };
 
 export const run = async (day, year = 2022) => {
