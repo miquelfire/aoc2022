@@ -1,4 +1,3 @@
-'use strict';
 /**
  * @param {string} d 
  */
