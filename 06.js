@@ -14,5 +14,10 @@ export const part1 = async data => {
  * @param {string} data 
  */
 export const part2 = async data => {
-	return data;
+	for (let i = 0; i < data.length - 14; i++) {
+		if (/^(?!.*(.).*\1).+$/.test(data.slice(i, i + 14))) {
+			return i + 14;
+		}
+	}
+	return -1;
 };
