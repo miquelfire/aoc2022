@@ -72,6 +72,75 @@ export const part1 = async d => {
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	return data;
+	const data = d.split('\n').map(e => e.split(' '));
+	const knots = [];
+	const tailPlaces = new Set();
+
+	for (let i = 0; i < 10; i++) {
+		knots.push([0,0]);
+	}
+	console.log(knots);
+	data.forEach(dir => {
+		let amount = +dir[1];
+		while (amount) {
+			amount--;
+			// Move head
+			switch (dir[0]) {
+			case 'U': {
+				knots[0][1]++;
+				break;
+			}
+			case 'D': {
+				knots[0][1]--;
+				break;
+			}
+			case 'R': {
+				knots[0][0]++;
+				break;
+			}
+			case 'L': {
+				knots[0][0]--;
+				break;
+			}
+			default:
+				console.log('What is this? ' + dir.join(' '));
+			}
+
+			for (let i = 1; i < 10; i++) {
+			// Move Tail
+				const tailXDiff = knots[i - 1][0] - knots[i][0];
+				const tailYDiff = knots[i - 1][1] - knots[i][1];
+				if (tailXDiff > 1) {
+					if (tailYDiff) {
+						knots[i][1] += tailYDiff;
+					}
+					knots[i][0]++;
+				}
+				else if (tailXDiff < -1) {
+					if (tailYDiff) {
+						knots[i][1] += tailYDiff;
+					}
+					knots[i][0]--;
+				}
+				else if (tailYDiff > 1) {
+					if (tailXDiff) {
+						knots[i][0] += tailXDiff;
+					}
+					knots[i][1]++;
+				}
+				else if (tailYDiff < -1) {
+					if (tailXDiff) {
+						knots[i][0] += tailXDiff;
+					}
+					knots[i][1]--;
+				}
+
+			}
+
+			tailPlaces.add(knots[9].join('x'));
+		}
+
+	});
+	// 2371 Too Low, need to debug
+	return tailPlaces.size;
 };
