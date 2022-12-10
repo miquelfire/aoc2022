@@ -111,36 +111,46 @@ export const part2 = async d => {
 				const tailXDiff = knots[i - 1][0] - knots[i][0];
 				const tailYDiff = knots[i - 1][1] - knots[i][1];
 				if (tailXDiff > 1) {
-					if (tailYDiff) {
-						knots[i][1] += tailYDiff;
+					if (tailYDiff > 0) {
+						knots[i][1]++;
+					}
+					if (tailYDiff < 0) {
+						knots[i][1]--;
 					}
 					knots[i][0]++;
 				}
 				else if (tailXDiff < -1) {
-					if (tailYDiff) {
-						knots[i][1] += tailYDiff;
+					if (tailYDiff > 0) {
+						knots[i][1]++;
+					}
+					if (tailYDiff < 0) {
+						knots[i][1]--;
 					}
 					knots[i][0]--;
 				}
 				else if (tailYDiff > 1) {
-					if (tailXDiff) {
-						knots[i][0] += tailXDiff;
+					if (tailXDiff > 0) {
+						knots[i][0]++;
+					}
+					if (tailXDiff < 0) {
+						knots[i][0]--;
 					}
 					knots[i][1]++;
 				}
 				else if (tailYDiff < -1) {
-					if (tailXDiff) {
-						knots[i][0] += tailXDiff;
+					if (tailXDiff > 0) {
+						knots[i][0]++;
+					}
+					if (tailXDiff < 0) {
+						knots[i][0]--;
 					}
 					knots[i][1]--;
 				}
 
 			}
-
 			tailPlaces.add(knots[9].join('x'));
 		}
 
 	});
-	// 2371 Too Low, need to debug
 	return tailPlaces.size;
 };
