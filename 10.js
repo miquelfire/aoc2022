@@ -25,6 +25,35 @@ export const part1 = async d => {
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	return data;
+	const data = d.split('\n').join(' ').split(' ');
+	let x = 1;
+	let cycle = 0;
+	const cycleTargets = [40,80,120,160,200,240];
+	const output =[''];
+	const row = [];
+	const onState = [-1, 0, 1];
+	cycleTargets.forEach(rowStop => {
+		row.length = 0;
+		while (cycle < rowStop) {
+			const state = (cycle % 40) - x;
+			if (onState.includes(state)) {
+				row.push('#');
+			}
+			else {
+				row.push('.');
+			}
+			const cmd = data.shift();
+			if (!isNaN(cmd)) {
+				x += parseInt(cmd);
+			}
+			cycle++;
+
+		}
+
+		output.push(row.join(''));
+	});
+
+	// Just for reference on how to output
+	return output.join('\n');
+	return '\n##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....';
 };
