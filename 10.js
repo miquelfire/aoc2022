@@ -7,6 +7,7 @@ export const part1 = async d => {
 	let cycle = 1;
 	const cycleTargets = [20, 60, 100, 140, 180, 220];
 	let signalSum = 0;
+	
 	while (data.length > 0 && cycleTargets.length) {
 		const command = data.shift();
 		cycle += command.length;
@@ -32,22 +33,25 @@ export const part2 = async d => {
 	const output =[''];
 	const row = [];
 	const onState = [-1, 0, 1];
+
 	cycleTargets.forEach(rowStop => {
 		row.length = 0;
 		while (cycle < rowStop) {
 			const state = (cycle % 40) - x;
+			const cmd = data.shift();
+
 			if (onState.includes(state)) {
 				row.push('#');
 			}
 			else {
 				row.push('.');
 			}
-			const cmd = data.shift();
+
 			if (!isNaN(cmd)) {
 				x += parseInt(cmd);
 			}
-			cycle++;
 
+			cycle++;
 		}
 
 		output.push(row.join(''));
@@ -55,5 +59,4 @@ export const part2 = async d => {
 
 	// Just for reference on how to output
 	return output.join('\n');
-	return '\n##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....';
 };
