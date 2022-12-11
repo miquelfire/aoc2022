@@ -13,24 +13,24 @@ export const part1 = async d => {
 			amount--;
 			// Move head
 			switch (dir[0]) {
-			case 'U': {
-				headPos[1]++;
-				break;
-			}
-			case 'D': {
-				headPos[1]--;
-				break;
-			}
-			case 'R': {
-				headPos[0]++;
-				break;
-			}
-			case 'L': {
-				headPos[0]--;
-				break;
-			}
-			default:
-				console.log('What is this? ' + dir.join(' '));
+				case 'U': {
+					headPos[1]++;
+					break;
+				}
+				case 'D': {
+					headPos[1]--;
+					break;
+				}
+				case 'R': {
+					headPos[0]++;
+					break;
+				}
+				case 'L': {
+					headPos[0]--;
+					break;
+				}
+				default:
+					console.log('What is this? ' + dir.join(' '));
 			}
 
 			// Move Tail
@@ -86,24 +86,24 @@ export const part2 = async d => {
 			amount--;
 			// Move head
 			switch (dir[0]) {
-			case 'U': {
-				knots[0][1]++;
-				break;
-			}
-			case 'D': {
-				knots[0][1]--;
-				break;
-			}
-			case 'R': {
-				knots[0][0]++;
-				break;
-			}
-			case 'L': {
-				knots[0][0]--;
-				break;
-			}
-			default:
-				console.log('What is this? ' + dir.join(' '));
+				case 'U': {
+					knots[0][1]++;
+					break;
+				}
+				case 'D': {
+					knots[0][1]--;
+					break;
+				}
+				case 'R': {
+					knots[0][0]++;
+					break;
+				}
+				case 'L': {
+					knots[0][0]--;
+					break;
+				}
+				default:
+					console.log('What is this? ' + dir.join(' '));
 			}
 
 			for (let i = 1; i < 10; i++) {
