@@ -15,6 +15,7 @@ function bfs(startXY, endXY, grid) {
 	while (queue.length > 0) {
 		const currentNode = queue.shift();
 		const [cx, cy] = currentNode.split('-').map(e => parseInt(e, 10));
+		if (currentNode == endNode) break;
 		let newNode = '';
 
 		// Search side paths
