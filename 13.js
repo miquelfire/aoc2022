@@ -2,49 +2,49 @@
  * 
  * @param {(number|number[])[]} left 
  * @param {(number|number[])[]} right 
- * @returns {boolean}
+ * @returns {number}
  */
 function comparePairs(left, right) {
 	let index = 0;
 	while (index < left.length && index < right.length) {
 		if (left[index].constructor === Array && right[index].constructor === Array) {
 			const ret = comparePairs(left[index], right[index]);
-			if (ret !== null) {
+			if (ret !== 0) {
 				return ret;
 			}
 		}
 		else if (left[index].constructor === Array) {
 			// Need to double check this
 			const ret = comparePairs(left[index], [right[index]]);
-			if (ret !== null) {
+			if (ret !== 0) {
 				return ret;
 			}
 		}
 		else if (right[index].constructor === Array) {
 			// Need to double check this
 			const ret = comparePairs([left[index]], right[index]);
-			if (ret !== null) {
+			if (ret !== 0) {
 				return ret;
 			}
 		}
 		else {
 			if (left[index] < right[index]) {
-				return true;
+				return -1;
 			}
 			if (left[index] > right[index]) {
-				return false;
+				return 1;
 			}
 		}
 		index++;
 	}
 	// Fall through for when one is shorter than the other, but same otherwise
 	if (index == left.length && index < right.length) {
-		return true;
+		return -1;
 	}
 	if (index < left.length && index == right.length) {
-		return false;
+		return 1;
 	}
-	return null;
+	return 0;
 }
 
 /**
@@ -55,7 +55,7 @@ export const part1 = async d => {
 	const rightOrder = [];
 
 	data.forEach((pair, index) => {
-		if (comparePairs(...pair)) {
+		if (comparePairs(...pair) == -1) {
 			rightOrder.push(index + 1);
 		}
 	});
@@ -66,6 +66,12 @@ export const part1 = async d => {
  * @param {string} d 
  */
 export const part2 = async d => {
-	const data = d.split('\n');
-	return data;
+	const data = (d + '\n[[2]]\n[[6]]').split('\n\n')
+		.join('\n')
+		.split('\n')
+		.map(e => JSON.parse(e))
+		.sort((a, b) => comparePairs(a, b))
+		.map(e => JSON.stringify(e));
+	const decoderPacket = [data.indexOf('[[2]]') + 1, data.indexOf('[[6]]') + 1];
+	return decoderPacket.reduce((p, v) => p * v, 1);
 };
