@@ -12,7 +12,7 @@ export function deepCopy(e) {
  * @param {string} startXY 
  * @param {string} endXY 
  * @param {Map<string, string[]>} graph 
- * @returns 
+ * @returns {false|number[]}
  */
 export function bfs(startNode, endNode, graph) {
 	const queue = [startNode];
@@ -39,6 +39,6 @@ export function bfs(startNode, endNode, graph) {
 		currentNode = came_from.get(currentNode);
 		if (!currentNode) return false;
 	}
-	return path.length;
+	return path;
 
 }
